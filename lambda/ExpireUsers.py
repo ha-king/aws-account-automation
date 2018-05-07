@@ -219,7 +219,6 @@ def add_user_to_blackhole(username, iam_client):
 
 # Turn off the specified user's key by setting it to inactive. 
 def disable_users_key(AccessKeyId, UserName, iam_client):
-    if DISABLE_USERS != "true": return
     global ACTION_SUMMARY
     ACTION_SUMMARY = ACTION_SUMMARY + "\nDisabling AccessKeyId {} for user {}".format(AccessKeyId, UserName)
     response = iam_client.update_access_key(
@@ -227,6 +226,7 @@ def disable_users_key(AccessKeyId, UserName, iam_client):
         AccessKeyId=AccessKeyId,
         Status='Inactive'
     )
+    if DISABLE_USERS != "true": return
     if response['ResponseMetadata']['HTTPStatusCode'] != 200:
         handle_error("Adding User to Blackhole Group", username, response['ResponseMetadata'])
     else: 
